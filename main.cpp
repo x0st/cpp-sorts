@@ -33,7 +33,8 @@ int main() {
 
 //    bubble(arr);
 //    cocktail(arr);
-    insertion(arr);
+//    insertion(arr);
+    selection(arr);
 
     std::cout << "sorted:   ";
 
@@ -113,6 +114,31 @@ int* insertion(int* arr) {
             arr[j] = arr[j - 1];
             arr[j - 1] = helper;
         }
+    }
+
+    return arr;
+}
+
+// SIZE = 10000, Time = 0.15
+int* selection(int *arr) {
+    int element, x = 0, min, sorted = 0;
+
+    for (int i(0); i < SIZE; i++) {
+        element = arr[i];
+        min = arr[i];
+        x = i;
+
+        for (int j(sorted); j < SIZE; j++) {
+            if (arr[j] < min) {
+                min = arr[j];
+                x = j;
+            }
+        }
+
+        arr[x] = element;
+        arr[i] = min;
+
+        sorted++;
     }
 
     return arr;
