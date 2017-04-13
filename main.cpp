@@ -31,7 +31,8 @@ int main() {
 
 //    clock_t tStart = clock();
 
-    bubble(arr);
+//    bubble(arr);
+    cocktail(arr);
 
     std::cout << "sorted:   ";
 
@@ -58,6 +59,40 @@ int* bubble(int* arr) {
                 arr[j+1] = helper;
             }
         }
+    }
+
+    return arr;
+}
+
+// SIZE = 10000, Time = 0.38
+int* cocktail(int* arr) {
+    int helper = 0;
+    int left = 0;
+    int right = SIZE - 1;
+
+    while (left <= right) {
+
+        for (int i(left); i < right; i++) {
+            helper = arr[i];
+
+            if (helper > arr[i+1]) {
+                arr[i] = arr[i+1];
+                arr[i+1] = helper;
+            }
+        }
+
+        right--;
+
+        for (int i(right); i > left; i--) {
+            helper = arr[i-1];
+
+            if (arr[i] < arr[i-1]) {
+                arr[i-1] = arr[i];
+                arr[i] = helper;
+            }
+        }
+
+        left++;
     }
 
     return arr;
