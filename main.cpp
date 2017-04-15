@@ -3,16 +3,24 @@
 #include <cmath>
 #include <ctime>
 #include <time.h>
+#include "merge.h"
 
 using namespace std;
 
-const int SIZE = 8;
+const int SIZE = 6;
 
 int* bubble(int* arr);
 int* cocktail(int* arr);
 int* insertion(int* arr);
 int* selection(int *arr);
 int* gnome(int *arr);
+int* merge(int *arr, int size);
+
+void pr(int *arr, int size) {
+    for (int i(0); i < size; i++) {
+        cout << arr[i] << " ";
+    }
+}
 
 int main() {
 
@@ -35,7 +43,8 @@ int main() {
 //    cocktail(arr);
 //    insertion(arr);
 //    selection(arr);
-    gnome(arr);
+//    gnome(arr);
+    arr = merge(arr, SIZE);
 
     std::cout << "sorted:   ";
 
@@ -45,6 +54,9 @@ int main() {
 
 //    std::cout << std::endl;
 //    std::cout << "time: " << (double)(clock() - tStart)/CLOCKS_PER_SEC;
+
+
+    delete arr;
 
     return 0;
 }
@@ -168,4 +180,41 @@ int* gnome(int *arr) {
     }
 
     return arr;
+}
+
+// SIZE = 10000, Time = 0.004
+int* merge(int *arr, int size = SIZE) {
+    if (size == 1) {
+        return arr;
+    }
+
+    int left_from = 0;
+    int left_to = size / 2 - 1;
+    int left_size = left_to + 1;
+
+    int right_from = size / 2;
+    int right_to = size - 1;
+    int right_size = right_to - right_from + 1;
+
+    int *left_part = new int[left_size];
+    int *right_part = new int[right_size];
+
+    int i = left_from;
+    int j = 0;
+
+    for (; j < left_size; j++, i++) {
+        left_part[j] = arr[i];
+    }
+
+    i = right_from;
+    j = 0;
+
+    for (; j < right_size; j++, i++) {
+        right_part[j] = arr[i];
+    }
+
+    int *left = merge(left_part, left_size);
+    int *right = merge(right_part, right_size);
+
+    return merge_arrays(left, right, left_size, right_size);
 }
