@@ -15,18 +15,13 @@ int* insertion(int* arr);
 int* selection(int *arr);
 int* gnome(int *arr);
 int* merge(int *arr, int size);
-
-void pr(int *arr, int size) {
-    for (int i(0); i < size; i++) {
-        cout << arr[i] << " ";
-    }
-}
+int* quicksort(int * pArray, int size);
 
 int main() {
 
     int *arr = new int[SIZE];
 
-    srand(time(nullptr));
+    srand((unsigned)time(nullptr));
 
     std::cout << "unsorted: ";
 
@@ -44,7 +39,8 @@ int main() {
 //    insertion(arr);
 //    selection(arr);
 //    gnome(arr);
-    arr = merge(arr, SIZE);
+//    arr = merge(arr, SIZE);
+    arr = quicksort(arr, SIZE);
 
     std::cout << "sorted:   ";
 
@@ -217,4 +213,54 @@ int* merge(int *arr, int size = SIZE) {
     int *right = merge(right_part, right_size);
 
     return merge_arrays(left, right, left_size, right_size);
+}
+
+// SIZE = 10000, Time = 0.010
+int * quicksort(int * pArray, int size) {
+    if (size < 2) {
+        return pArray;
+    }
+
+    int elem;
+
+    int pivot = pArray[0];
+
+    int lessCount = 0, greaterCount = 0;
+
+    int * lessDigits = new int[size];
+    int * greaterDigits = new int[size];
+
+    int i;
+
+    for (i = 1; i < size; i++) {
+        elem = pArray[i];
+
+        if (elem > pivot) {
+            greaterDigits[greaterCount] = elem;
+            greaterCount++;
+
+        } else {
+            lessDigits[lessCount] = elem;
+            lessCount++;
+        }
+    }
+
+    int * pLessSorted = quicksort(lessDigits, lessCount);
+    int * pGreaterSorted = quicksort(greaterDigits, greaterCount);
+
+    int * result = new int[size];
+
+    i = 0;
+
+    for (int j = 0; j < lessCount; j++, i++) {
+        result[i] = pLessSorted[j];
+    }
+
+    result[i++] = pivot;
+
+    for (int j = 0; j < greaterCount; j++, i++) {
+        result[i] = pGreaterSorted[j];
+    }
+
+    return result;
 }
