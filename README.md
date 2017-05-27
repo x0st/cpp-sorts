@@ -1,5 +1,5 @@
 # Sorts
-Sortings in c++.
+Sorts written in c++.
 
 Array size = 10000, filled with random digits from 0 to 100
 
